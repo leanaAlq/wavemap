@@ -1,0 +1,14 @@
+{
+  "name": "wavemap",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "client",
+    "server",
+    "shared"
+  ],
+  "scripts": {
+    "server": "npm run dev --workspace=server",
+    "client": "npm run start --workspace=client"
+  }
+}
