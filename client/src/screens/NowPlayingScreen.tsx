@@ -6,9 +6,9 @@ import {
   TouchableOpacity,
   StyleSheet,
   ActivityIndicator,
-  SafeAreaView,
-  Clipboard,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import Clipboard from '@react-native-clipboard/clipboard';
 import { useSpotifyAuth } from '../hooks/useSpotifyAuth';
 import { useNowPlaying } from '../hooks/useNowPlaying';
 

@@ -57,8 +57,9 @@ export function useSpotifyAuth(): SpotifyAuthState {
   //   npx expo run:android  (requires Android Studio)
   //
   // After that, add the URI shown on the login screen to your Spotify dashboard.
-  const redirectUri = AuthSession.makeRedirectUri({ scheme: 'wavemap' });
-
+ const redirectUri = AuthSession.makeRedirectUri({
+		scheme: "wavemap",
+ });
   const [request, response, promptAsync] = AuthSession.useAuthRequest(
     {
       clientId: SPOTIFY_CLIENT_ID,
@@ -104,16 +105,15 @@ export function useSpotifyAuth(): SpotifyAuthState {
   async function exchangeCode(code: string, codeVerifier: string) {
     setIsLoading(true);
     try {
-      const result = await AuthSession.exchangeCodeAsync(
-        {
-          clientId: SPOTIFY_CLIENT_ID,
-          code,
-          redirectUri,
-          // PKCE: send the original verifier so Spotify can verify the challenge
-          extraParams: { code_verifier: codeVerifier },
-        },
-        SPOTIFY_DISCOVERY,
-      );
+     const result = await AuthSession.exchangeCodeAsync(
+				{
+					clientId: SPOTIFY_CLIENT_ID,
+					code,
+					redirectUri, // same URI used in the auth request
+					extraParams: { code_verifier: codeVerifier },
+				},
+				SPOTIFY_DISCOVERY,
+			);
       await saveTokens(result.accessToken, result.refreshToken ?? null, result.expiresIn ?? 3600);
       setAccessToken(result.accessToken);
       setError(null);
