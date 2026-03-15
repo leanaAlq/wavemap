@@ -31,7 +31,13 @@
     },
     "plugins": [
       "expo-web-browser",
-      "expo-secure-store"
+      "expo-secure-store",
+      [
+        "expo-location",
+        {
+          "locationWhenInUsePermission": "Wavemap shows your position on the map while you use the app."
+        }
+      ]
     ]
   }
 }
