@@ -7,12 +7,13 @@ import {
   StyleSheet,
   ActivityIndicator,
   SafeAreaView,
+  Clipboard,
 } from 'react-native';
 import { useSpotifyAuth } from '../hooks/useSpotifyAuth';
 import { useNowPlaying } from '../hooks/useNowPlaying';
 
 export default function NowPlayingScreen() {
-  const { accessToken, isLoading: authLoading, error: authError, login, logout, refreshAccessToken } =
+  const { accessToken, isLoading: authLoading, error: authError, redirectUri, login, logout, refreshAccessToken } =
     useSpotifyAuth();
 
   const { track, isLoading: trackLoading, error: trackError, lastUpdated } = useNowPlaying({
@@ -31,6 +32,9 @@ export default function NowPlayingScreen() {
 
   // --- Login screen ---
   if (!accessToken) {
+    // Warn if Expo Go is being used — exp:// scheme won't work with Spotify
+    const isExpoGo = redirectUri.startsWith('exp://');
+
     return (
       <SafeAreaView style={styles.centerContainer}>
         <Text style={styles.appTitle}>Wavemap</Text>
@@ -39,6 +43,32 @@ export default function NowPlayingScreen() {
           <Text style={styles.loginButtonText}>Login with Spotify</Text>
         </TouchableOpacity>
         {authError ? <Text style={styles.error}>{authError}</Text> : null}
+
+        {/* Redirect URI panel — always visible so you can add the exact URI to Spotify */}
+        <View style={styles.redirectBox}>
+          <Text style={styles.redirectLabel}>Redirect URI for Spotify dashboard</Text>
+          <TouchableOpacity
+            onPress={() => Clipboard.setString(redirectUri)}
+            activeOpacity={0.7}
+          >
+            <Text style={styles.redirectUri}>{redirectUri}</Text>
+            <Text style={styles.redirectCopyHint}>tap to copy</Text>
+          </TouchableOpacity>
+
+          {isExpoGo && (
+            <View style={styles.warningBox}>
+              <Text style={styles.warningText}>
+                ⚠️  Expo Go generates an{' '}
+                <Text style={styles.warningCode}>exp://</Text> URI that
+                Spotify rejects. Run a development build to get{' '}
+                <Text style={styles.warningCode}>wavemap://</Text> instead:
+              </Text>
+              <Text style={styles.warningCode}>
+                {'npx expo run:ios\nnpx expo run:android'}
+              </Text>
+            </View>
+          )}
+        </View>
       </SafeAreaView>
     );
   }
@@ -229,6 +259,51 @@ const styles = StyleSheet.create({
   emptyBody: {
     fontSize: 14,
     color: MUTED,
+  },
+
+  // Redirect URI debug panel
+  redirectBox: {
+    marginTop: 40,
+    padding: 16,
+    borderRadius: 8,
+    backgroundColor: SURFACE,
+    width: '100%',
+    gap: 8,
+  },
+  redirectLabel: {
+    fontSize: 11,
+    color: DIM,
+    textTransform: 'uppercase',
+    letterSpacing: 0.8,
+    marginBottom: 4,
+  },
+  redirectUri: {
+    fontSize: 13,
+    color: SPOTIFY_GREEN,
+    fontFamily: 'monospace' as const,
+    flexWrap: 'wrap',
+  },
+  redirectCopyHint: {
+    fontSize: 11,
+    color: DIM,
+    marginTop: 4,
+  },
+  warningBox: {
+    marginTop: 8,
+    padding: 12,
+    borderRadius: 6,
+    backgroundColor: '#2A1F00',
+    gap: 6,
+  },
+  warningText: {
+    fontSize: 12,
+    color: '#FFB347',
+    lineHeight: 18,
+  },
+  warningCode: {
+    fontSize: 12,
+    color: '#FFD580',
+    fontFamily: 'monospace' as const,
   },
 
   // Shared

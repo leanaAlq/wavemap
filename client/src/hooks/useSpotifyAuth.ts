@@ -36,6 +36,8 @@ export interface SpotifyAuthState {
   accessToken: string | null;
   isLoading: boolean;
   error: string | null;
+  /** The exact redirect URI this build will use — add it verbatim to the Spotify dashboard */
+  redirectUri: string;
   login: () => void;
   logout: () => Promise<void>;
   /** Call when a 401 is received; returns a fresh token or null if re-login is needed */
@@ -47,10 +49,14 @@ export function useSpotifyAuth(): SpotifyAuthState {
   const [isLoading, setIsLoading] = useState(true); // true on mount while we check SecureStore
   const [error, setError] = useState<string | null>(null);
 
-  // makeRedirectUri() returns:
-  //   Expo Go dev:  exp://<host>:8081
-  //   Standalone:   wavemap://
-  // Both must be added to the Spotify dashboard's allowed redirect URIs.
+  // In Expo Go, makeRedirectUri generates exp://<host>:8081 which Spotify's dashboard
+  // rejects (non-standard scheme). The only way to get a wavemap:// URI that Spotify
+  // accepts is to run a *development build*, not Expo Go:
+  //
+  //   npx expo run:ios    (requires Xcode)
+  //   npx expo run:android  (requires Android Studio)
+  //
+  // After that, add the URI shown on the login screen to your Spotify dashboard.
   const redirectUri = AuthSession.makeRedirectUri({ scheme: 'wavemap' });
 
   const [request, response, promptAsync] = AuthSession.useAuthRequest(
@@ -156,5 +162,5 @@ export function useSpotifyAuth(): SpotifyAuthState {
     setAccessToken(null);
   }, []);
 
-  return { accessToken, isLoading, error, login, logout, refreshAccessToken };
+  return { accessToken, isLoading, error, redirectUri, login, logout, refreshAccessToken };
 }
