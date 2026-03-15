@@ -7,7 +7,7 @@ import { StatusBar } from 'expo-status-bar';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Text } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import NowPlayingScreen from './src/screens/NowPlayingScreen';
 import MapScreen from './src/screens/MapScreen';
 import { SpotifyProvider } from './src/context/SpotifyContext';
@@ -37,7 +37,7 @@ export default function App() {
             component={NowPlayingScreen}
             options={{
               tabBarLabel: 'Now Playing',
-              tabBarIcon: ({ color }) => <Text style={{ fontSize: 20, color }}>🎵</Text>,
+              tabBarIcon: ({ color, size }) => <Ionicons name="musical-notes" size={size} color={color} />,
             }}
           />
           <Tab.Screen
@@ -45,7 +45,7 @@ export default function App() {
             component={MapScreen}
             options={{
               tabBarLabel: 'Map',
-              tabBarIcon: ({ color }) => <Text style={{ fontSize: 20, color }}>📍</Text>,
+              tabBarIcon: ({ color, size }) => <Ionicons name="map" size={size} color={color} />,
             }}
           />
         </Tab.Navigator>

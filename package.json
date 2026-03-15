@@ -10,5 +10,10 @@
   "scripts": {
     "server": "npm run dev --workspace=server",
     "client": "npm run start --workspace=client"
+  },
+  "dependencies": {
+    "expo": "~55.0.6",
+    "react": "19.2.0",
+    "react-native": "0.83.2"
   }
 }

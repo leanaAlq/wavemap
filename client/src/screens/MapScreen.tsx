@@ -23,7 +23,9 @@ export default function MapScreen() {
   const { track } = useSpotifyContext();
   const { pins, connected, socket } = useSocket();
   const mapRef = useRef<MapView>(null);
-  const [selectedPin, setSelectedPin] = useState<UserPin | null>(null);
+  const [selectedPinId, setSelectedPinId] = useState<string | null>(null);
+  // Derive from live pins so reaction counts update without reopening the sheet
+  const selectedPin = selectedPinId ? (pins.find(p => p.sessionId === selectedPinId) ?? null) : null;
 
   // Emit GPS + current track every 15 s
   useLocation({ socket, track });
@@ -63,7 +65,7 @@ export default function MapScreen() {
           <PinMarker
             key={pin.sessionId}
             pin={pin}
-            onPress={() => setSelectedPin(pin)}
+            onPress={() => setSelectedPinId(pin.sessionId)}
           />
         ))}
       </MapView>
@@ -76,7 +78,8 @@ export default function MapScreen() {
 
       <PinBottomSheet
         pin={selectedPin}
-        onClose={() => setSelectedPin(null)}
+        socket={socket}
+        onClose={() => setSelectedPinId(null)}
         onReact={handleReact}
       />
     </View>
@@ -96,8 +99,8 @@ function PinMarker({ pin, onPress }: { pin: UserPin; onPress: () => void }) {
     <Marker
       coordinate={{ latitude: pin.latitude, longitude: pin.longitude }}
       pinColor={isOwn ? SPOTIFY_GREEN : PIN_OTHER}
-      title={isOwn ? 'You' : 'Wavemap user'}
-      description={pin.track ? `${pin.track.name} — ${pin.track.artist}` : undefined}
+      // No title/description — suppresses the native callout so the custom
+      // bottom sheet is the only UI that appears on tap
       onPress={onPress}
     />
   );

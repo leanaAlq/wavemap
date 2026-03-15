@@ -1,7 +1,9 @@
+import 'dotenv/config';
 import { createServer } from 'http';
 import express from 'express';
 import { Server } from 'socket.io';
 import { registerLocationNamespace } from './location/namespace';
+import { migrate } from './db';
 
 const app = express();
 const PORT = process.env.PORT ?? 3000;
@@ -23,7 +25,9 @@ const io = new Server(httpServer, {
 
 registerLocationNamespace(io);
 
-httpServer.listen(PORT, () => {
-  console.log(`Wavemap server running on http://localhost:${PORT}`);
-  console.log(`Socket.io /location namespace ready`);
+migrate().then(() => {
+  httpServer.listen(PORT, () => {
+    console.log(`Wavemap server running on http://localhost:${PORT}`);
+    console.log(`Socket.io /location namespace ready`);
+  });
 });

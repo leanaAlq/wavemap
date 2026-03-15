@@ -8,13 +8,16 @@
     "start": "node dist/index.js"
   },
   "dependencies": {
+    "dotenv": "^17.3.1",
     "express": "^4.18.2",
+    "pg": "^8.20.0",
     "shared": "*",
     "socket.io": "^4.8.3"
   },
   "devDependencies": {
     "@types/express": "^4.17.21",
     "@types/node": "^20.11.5",
+    "@types/pg": "^8.18.0",
     "nodemon": "^3.0.3",
     "ts-node": "^10.9.2",
     "typescript": "^5.3.3"

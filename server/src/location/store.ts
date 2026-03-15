@@ -17,6 +17,14 @@ export const pinStore = {
     return Array.from(pins.values());
   },
 
+  addReaction(sessionId: string, emoji: import('shared').ReactionPayload['emoji']): void {
+    const pin = pins.get(sessionId);
+    if (!pin) return;
+    const reactions = { ...pin.reactions };
+    reactions[emoji] = (reactions[emoji] ?? 0) + 1;
+    pins.set(sessionId, { ...pin, reactions });
+  },
+
   size(): number {
     return pins.size;
   },

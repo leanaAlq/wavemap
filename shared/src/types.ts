@@ -24,6 +24,8 @@ export interface LocationPayload {
 /** A user pin on the map — location + optional now-playing track */
 export interface UserPin extends LocationPayload {
   track?: Track;
+  /** Cumulative reaction counts — key is the emoji string */
+  reactions?: Partial<Record<ReactionPayload['emoji'], number>>;
 }
 
 /**
@@ -43,4 +45,15 @@ export interface RawLocationPayload {
 export interface ReactionPayload {
   pinSessionId: string; // which pin is being reacted to
   emoji: '👍' | '🔥' | '❤️' | '🎵';
+}
+
+/**
+ * A public comment on a map pin.
+ * author_session_id is stored server-side only — never sent to clients.
+ */
+export interface Comment {
+  id: string;
+  pinSessionId: string;
+  text: string;
+  createdAt: string; // ISO 8601
 }
