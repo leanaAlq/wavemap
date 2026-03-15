@@ -9,17 +9,21 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Clipboard from '@react-native-clipboard/clipboard';
-import { useSpotifyAuth } from '../hooks/useSpotifyAuth';
-import { useNowPlaying } from '../hooks/useNowPlaying';
+import { useSpotifyContext } from '../context/SpotifyContext';
 
 export default function NowPlayingScreen() {
-  const { accessToken, isLoading: authLoading, error: authError, redirectUri, login, logout, refreshAccessToken } =
-    useSpotifyAuth();
-
-  const { track, isLoading: trackLoading, error: trackError, lastUpdated } = useNowPlaying({
+  const {
     accessToken,
-    onTokenExpired: refreshAccessToken,
-  });
+    isLoading: authLoading,
+    error: authError,
+    redirectUri,
+    login,
+    logout,
+    track,
+    trackLoading,
+    trackError,
+    lastUpdated,
+  } = useSpotifyContext();
 
   // --- Loading state while we check SecureStore for a stored token ---
   if (authLoading) {

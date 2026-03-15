@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import * as Location from 'expo-location';
 import { Socket } from 'socket.io-client';
-import { RawLocationPayload } from 'shared';
+import { RawLocationPayload, Track } from 'shared';
 import { getSessionId } from './useSessionId';
 
 const LOCATION_INTERVAL_MS = 15_000; // emit every 15 seconds
@@ -9,17 +9,20 @@ const LOCATION_INTERVAL_MS = 15_000; // emit every 15 seconds
 interface Options {
   /** Socket from useSocket — pass null if not connected yet */
   socket: Socket | null;
+  /** Currently playing track — attached to the payload so the server can store it on the pin */
+  track: Track | null;
 }
 
 /**
  * Requests foreground location permission and emits 'location:update' to the
  * server every 15 seconds. The server fuzzes coords before broadcasting.
  */
-export function useLocation({ socket }: Options): void {
-  // Keep a stable ref to the latest socket so the watcher callback always
-  // has the current socket without needing to restart the watcher.
+export function useLocation({ socket, track }: Options): void {
+  // Refs keep the watcher callback up-to-date without restarting it on every change
   const socketRef = useRef(socket);
+  const trackRef = useRef(track);
   useEffect(() => { socketRef.current = socket; }, [socket]);
+  useEffect(() => { trackRef.current = track; }, [track]);
 
   useEffect(() => {
     let cancelled = false;
@@ -54,6 +57,8 @@ export function useLocation({ socket }: Options): void {
             latitude: loc.coords.latitude,
             longitude: loc.coords.longitude,
             updatedAt: new Date().toISOString(),
+            // Include current track if one is playing — server stores it on the pin
+            track: trackRef.current ?? undefined,
           };
 
           socketRef.current?.emit('location:update', payload);

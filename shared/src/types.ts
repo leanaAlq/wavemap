@@ -36,6 +36,7 @@ export interface RawLocationPayload {
   latitude: number;  // exact — fuzzed server-side only
   longitude: number; // exact
   updatedAt: string; // ISO 8601
+  track?: Track;     // currently playing track — attached in Step 4, passed through as-is
 }
 
 /** Reaction event sent when a user taps an emoji on a pin */

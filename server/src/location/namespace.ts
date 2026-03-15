@@ -1,5 +1,5 @@
 import { Server } from 'socket.io';
-import { RawLocationPayload } from 'shared';
+import { RawLocationPayload, ReactionPayload } from 'shared';
 import { fuzzCoords } from './fuzz';
 import { pinStore } from './store';
 
@@ -7,8 +7,10 @@ import { pinStore } from './store';
  * Register the /location Socket.io namespace.
  *
  * Events:
- *   client → server:  'location:update'  { RawLocationPayload }  (exact GPS, fuzzed here)
- *   server → clients: 'pins:snapshot'    UserPin[]               (fuzzed, broadcast to all)
+ *   client → server:  'location:update'  RawLocationPayload   (exact GPS + optional track)
+ *   server → clients: 'pins:snapshot'    UserPin[]            (fuzzed coords, track passed through)
+ *   client → server:  'reaction'         ReactionPayload
+ *   server → clients: 'reaction:received' ReactionPayload     (broadcast to all)
  */
 export function registerLocationNamespace(io: Server): void {
   const location = io.of('/location');
@@ -37,10 +39,19 @@ export function registerLocationNamespace(io: Server): void {
         latitude,
         longitude,
         updatedAt: new Date().toISOString(),
+        // Track is optional — pass through as-is (already sanitised by Spotify on the client)
+        track: payload.track,
       });
 
       // Broadcast updated snapshot to every connected client (including sender)
       location.emit('pins:snapshot', pinStore.getAll());
+    });
+
+    socket.on('reaction', (payload: ReactionPayload) => {
+      if (typeof payload?.pinSessionId !== 'string' || typeof payload?.emoji !== 'string') return;
+      console.log(`[location] reaction ${payload.emoji} on pin ${payload.pinSessionId}`);
+      // Broadcast to everyone so all clients can show the animation
+      location.emit('reaction:received', payload);
     });
 
     socket.on('disconnect', () => {

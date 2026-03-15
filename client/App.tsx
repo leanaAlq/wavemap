@@ -10,6 +10,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Text } from 'react-native';
 import NowPlayingScreen from './src/screens/NowPlayingScreen';
 import MapScreen from './src/screens/MapScreen';
+import { SpotifyProvider } from './src/context/SpotifyContext';
 
 const Tab = createBottomTabNavigator();
 
@@ -20,6 +21,7 @@ const MUTED = '#535353';
 export default function App() {
   return (
     <SafeAreaProvider>
+      <SpotifyProvider>
       <StatusBar style="light" />
       <NavigationContainer>
         <Tab.Navigator
@@ -48,6 +50,7 @@ export default function App() {
           />
         </Tab.Navigator>
       </NavigationContainer>
+      </SpotifyProvider>
     </SafeAreaProvider>
   );
 }
