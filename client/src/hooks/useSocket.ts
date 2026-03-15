@@ -13,36 +13,37 @@ export interface SocketState {
 export function useSocket(): SocketState {
   const [pins, setPins] = useState<UserPin[]>([]);
   const [connected, setConnected] = useState(false);
-  const socketRef = useRef<Socket | null>(null);
+  // State (not ref) so callers re-render when the socket becomes available
+  const [socket, setSocket] = useState<Socket | null>(null);
 
   useEffect(() => {
-    // Connect to the /location namespace only
-    const socket = io(`${SERVER_URL}/location`, {
-      transports: ['websocket'], // skip HTTP long-polling — simpler for React Native
+    const s = io(`${SERVER_URL}/location`, {
+      transports: ['websocket'],
       reconnectionDelay: 2000,
     });
 
-    socketRef.current = socket;
+    // Store in state so useLocation/MapScreen receive the real socket on next render
+    setSocket(s);
 
-    socket.on('connect', () => {
-      console.log('[useSocket] connected', socket.id);
+    s.on('connect', () => {
+      console.log('[useSocket] connected', s.id);
       setConnected(true);
     });
 
-    socket.on('disconnect', () => {
+    s.on('disconnect', () => {
       console.log('[useSocket] disconnected');
       setConnected(false);
     });
 
-    socket.on('pins:snapshot', (incoming: UserPin[]) => {
+    s.on('pins:snapshot', (incoming: UserPin[]) => {
       setPins(incoming);
     });
 
     return () => {
-      socket.disconnect();
-      socketRef.current = null;
+      s.disconnect();
+      setSocket(null);
     };
-  }, []); // connect once on mount
+  }, []);
 
-  return { pins, connected, socket: socketRef.current };
+  return { pins, connected, socket };
 }
