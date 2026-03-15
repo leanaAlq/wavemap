@@ -57,9 +57,13 @@ export function useSpotifyAuth(): SpotifyAuthState {
   //   npx expo run:android  (requires Android Studio)
   //
   // After that, add the URI shown on the login screen to your Spotify dashboard.
- const redirectUri = AuthSession.makeRedirectUri({
-		scheme: "wavemap",
- });
+  // scheme + path → wavemap://callback
+  // Using an explicit path avoids empty-host URI issues with Spotify's token endpoint.
+  // Add exactly "wavemap://callback" to your Spotify dashboard's Redirect URIs.
+  const redirectUri = AuthSession.makeRedirectUri({
+    scheme: 'wavemap',
+    path: 'callback',
+  });
   const [request, response, promptAsync] = AuthSession.useAuthRequest(
     {
       clientId: SPOTIFY_CLIENT_ID,
@@ -117,8 +121,10 @@ export function useSpotifyAuth(): SpotifyAuthState {
       await saveTokens(result.accessToken, result.refreshToken ?? null, result.expiresIn ?? 3600);
       setAccessToken(result.accessToken);
       setError(null);
-    } catch {
-      setError('Could not complete login — please try again');
+    } catch (e) {
+      // Log the URI so a redirect mismatch is easy to spot
+      console.error('[useSpotifyAuth] token exchange failed', { redirectUri, error: e });
+      setError(`Login failed — check that "${redirectUri}" is added to your Spotify dashboard`);
     } finally {
       setIsLoading(false);
     }
