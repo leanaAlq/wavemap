@@ -30,6 +30,15 @@ export async function migrate(): Promise<void> {
     );
     CREATE INDEX IF NOT EXISTS idx_comments_pin
       ON comments (pin_session_id, created_at DESC);
+
+    CREATE TABLE IF NOT EXISTS reactions (
+      id             UUID        PRIMARY KEY DEFAULT gen_random_uuid(),
+      pin_session_id TEXT        NOT NULL,
+      emoji          TEXT        NOT NULL,
+      created_at     TIMESTAMPTZ NOT NULL DEFAULT NOW()
+    );
+    CREATE INDEX IF NOT EXISTS idx_reactions_pin
+      ON reactions (pin_session_id);
   `);
   console.log('[db] migrations complete');
 }

@@ -4,6 +4,7 @@ import { Comment } from 'shared';
 
 export function useComments(socket: Socket | null, pinSessionId: string | null) {
   const [comments, setComments] = useState<Comment[]>([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (!socket || !pinSessionId) {
@@ -12,10 +13,14 @@ export function useComments(socket: Socket | null, pinSessionId: string | null) 
     }
 
     // Load existing comments for this pin
+    setLoading(true);
     socket.emit('comments:load', { pinSessionId });
 
     function onList(data: { pinSessionId: string; comments: Comment[] }) {
-      if (data.pinSessionId === pinSessionId) setComments(data.comments);
+      if (data.pinSessionId === pinSessionId) {
+        setComments(data.comments);
+        setLoading(false);
+      }
     }
 
     function onNew(comment: Comment) {
@@ -41,5 +46,5 @@ export function useComments(socket: Socket | null, pinSessionId: string | null) 
     [socket, pinSessionId],
   );
 
-  return { comments, postComment };
+  return { comments, loading, postComment };
 }

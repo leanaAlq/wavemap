@@ -26,6 +26,28 @@ export async function insertComment(
   return toComment(rows[0]);
 }
 
+export async function insertReaction(pinSessionId: string, emoji: string): Promise<void> {
+  await getPool().query(
+    `INSERT INTO reactions (pin_session_id, emoji) VALUES ($1, $2)`,
+    [pinSessionId, emoji],
+  );
+}
+
+/** Returns emoji → count for a pin (only reactions from the last 24 hours). */
+export async function getReactionCountsByPin(
+  pinSessionId: string,
+): Promise<Partial<Record<string, number>>> {
+  const { rows } = await getPool().query<{ emoji: string; count: string }>(
+    `SELECT emoji, COUNT(*) as count
+     FROM reactions
+     WHERE pin_session_id = $1
+       AND created_at > NOW() - INTERVAL '24 hours'
+     GROUP BY emoji`,
+    [pinSessionId],
+  );
+  return Object.fromEntries(rows.map(r => [r.emoji, Number(r.count)]));
+}
+
 /** Returns comments for a pin that were created in the last 24 hours, oldest first. */
 export async function getCommentsByPin(pinSessionId: string): Promise<Comment[]> {
   const { rows } = await getPool().query<Row>(

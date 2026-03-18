@@ -2,7 +2,7 @@ import { Server } from 'socket.io';
 import { RawLocationPayload, ReactionPayload } from 'shared';
 import { fuzzCoords } from './fuzz';
 import { pinStore } from './store';
-import { insertComment, getCommentsByPin } from '../comments/queries';
+import { insertComment, getCommentsByPin, insertReaction, getReactionCountsByPin } from '../comments/queries';
 
 /**
  * Events:
@@ -53,17 +53,29 @@ export function registerLocationNamespace(io: Server): void {
     });
 
     // ── Reactions ────────────────────────────────────────────────────────────
-    socket.on('reaction', (payload: ReactionPayload) => {
+    socket.on('reaction', async (payload: ReactionPayload) => {
       if (typeof payload?.pinSessionId !== 'string' || typeof payload?.emoji !== 'string') return;
       pinStore.addReaction(payload.pinSessionId, payload.emoji);
       location.emit('pins:snapshot', pinStore.getAll());
+      // Persist to DB so reactions survive server restarts
+      try { await insertReaction(payload.pinSessionId, payload.emoji); } catch { /* non-fatal */ }
     });
 
     // ── Comments ─────────────────────────────────────────────────────────────
     socket.on('comments:load', async ({ pinSessionId }: { pinSessionId: string }) => {
       if (typeof pinSessionId !== 'string') return;
       try {
-        const comments = await getCommentsByPin(pinSessionId);
+        const [comments, dbReactions] = await Promise.all([
+          getCommentsByPin(pinSessionId),
+          getReactionCountsByPin(pinSessionId),
+        ]);
+        // Merge DB reaction counts into the in-memory pin so the snapshot is consistent
+        for (const [emoji, count] of Object.entries(dbReactions)) {
+          const pin = pinStore.getAll().find(p => p.sessionId === pinSessionId);
+          if (pin) {
+            pin.reactions = { ...pin.reactions, [emoji]: count as number };
+          }
+        }
         socket.emit('comments:list', { pinSessionId, comments });
       } catch (err) {
         console.error('[comments] load error', err);
