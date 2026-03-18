@@ -1,7 +1,8 @@
 {
   "expo": {
-    "name": "client",
-    "slug": "client",
+    "name": "Wavemap",
+    "slug": "wavemap",
+    "scheme": "wavemap",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -11,13 +12,9 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "scheme": "wavemap",
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.wavemap.app",
-      "infoPlist": {
-        "NSLocationWhenInUseUsageDescription": "Wavemap shows your location on the map so nearby users can find you."
-      }
+      "bundleIdentifier": "com.anonymous.wavemap"
     },
     "android": {
       "adaptiveIcon": {
@@ -26,14 +23,21 @@
         "backgroundImage": "./assets/android-icon-background.png",
         "monochromeImage": "./assets/android-icon-monochrome.png"
       },
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "package": "com.anonymous.wavemap"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "plugins": [
       "expo-web-browser",
-      "expo-location"
+      "expo-secure-store",
+      [
+        "expo-location",
+        {
+          "locationWhenInUsePermission": "Wavemap shows your position on the map while you use the app."
+        }
+      ]
     ]
   }
 }

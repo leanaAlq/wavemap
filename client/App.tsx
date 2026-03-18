@@ -1,56 +1,56 @@
+import { enableScreens } from 'react-native-screens';
+// Call before any navigation rendering — required by react-native-screens
+enableScreens();
+
+import React from 'react';
+import { StatusBar } from 'expo-status-bar';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { StatusBar } from 'expo-status-bar';
-import { Text } from 'react-native';
-import { useSpotifyAuth } from './src/hooks/useSpotifyAuth';
-import { useNowPlaying } from './src/hooks/useNowPlaying';
+import { Ionicons } from '@expo/vector-icons';
 import NowPlayingScreen from './src/screens/NowPlayingScreen';
 import MapScreen from './src/screens/MapScreen';
+import { SpotifyProvider } from './src/context/SpotifyContext';
 
 const Tab = createBottomTabNavigator();
 
+const BG = '#121212';
+const SPOTIFY_GREEN = '#1DB954';
+const MUTED = '#535353';
+
 export default function App() {
-  // Lifted here so the current track is shared between both tabs
-  const { tokens, promptAsync, ready } = useSpotifyAuth();
-  const { track, error: trackError } = useNowPlaying(tokens?.accessToken ?? null);
-
-  // Convert NowPlayingTrack → shared Track shape for the socket payload
-  const socketTrack = track
-    ? { id: track.id, name: track.name, artist: track.artist, albumArt: track.albumArt ?? '' }
-    : undefined;
-
   return (
-    <NavigationContainer>
+    <SafeAreaProvider>
+      <SpotifyProvider>
       <StatusBar style="light" />
-      <Tab.Navigator
-        screenOptions={{
-          headerShown: false,
-          tabBarStyle: { backgroundColor: '#121212', borderTopColor: '#333' },
-          tabBarActiveTintColor: '#1DB954',
-          tabBarInactiveTintColor: '#666',
-        }}
-      >
-        <Tab.Screen
-          name="Now Playing"
-          options={{ tabBarIcon: ({ color }) => <Text style={{ fontSize: 20, color }}>🎵</Text> }}
+      <NavigationContainer>
+        <Tab.Navigator
+          screenOptions={{
+            headerShown: false,
+            tabBarStyle: { backgroundColor: BG, borderTopColor: '#2A2A2A' },
+            tabBarActiveTintColor: SPOTIFY_GREEN,
+            tabBarInactiveTintColor: MUTED,
+          }}
         >
-          {() => (
-            <NowPlayingScreen
-              tokens={tokens}
-              promptAsync={promptAsync}
-              ready={ready}
-              track={track}
-              error={trackError}
-            />
-          )}
-        </Tab.Screen>
-        <Tab.Screen
-          name="Map"
-          options={{ tabBarIcon: ({ color }) => <Text style={{ fontSize: 20, color }}>🗺️</Text> }}
-        >
-          {() => <MapScreen track={socketTrack} />}
-        </Tab.Screen>
-      </Tab.Navigator>
-    </NavigationContainer>
+          <Tab.Screen
+            name="NowPlaying"
+            component={NowPlayingScreen}
+            options={{
+              tabBarLabel: 'Now Playing',
+              tabBarIcon: ({ color, size }) => <Ionicons name="musical-notes" size={size} color={color} />,
+            }}
+          />
+          <Tab.Screen
+            name="Map"
+            component={MapScreen}
+            options={{
+              tabBarLabel: 'Map',
+              tabBarIcon: ({ color, size }) => <Ionicons name="map" size={size} color={color} />,
+            }}
+          />
+        </Tab.Navigator>
+      </NavigationContainer>
+      </SpotifyProvider>
+    </SafeAreaProvider>
   );
 }

@@ -1,156 +1,123 @@
-import { Image, Modal, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import MapView, { Marker } from 'react-native-maps';
-import { useState } from 'react';
-import type { UserPin } from 'shared';
-import { useLocationSocket } from '../hooks/useLocationSocket';
+import React, { useEffect, useRef, useState } from 'react';
+import { View, StyleSheet, Text } from 'react-native';
+import MapView, { Marker, Region } from 'react-native-maps';
+import * as Location from 'expo-location';
+import { UserPin, ReactionPayload } from 'shared';
+import { useSocket } from '../hooks/useSocket';
+import { useLocation } from '../hooks/useLocation';
+import { useSpotifyContext } from '../context/SpotifyContext';
+import { getSessionId } from '../hooks/useSessionId';
+import { PinBottomSheet } from '../components/PinBottomSheet';
 
-const REACTIONS = ['👍', '🔥', '❤️', '🎵'] as const;
+const INITIAL_REGION: Region = {
+  latitude: 51.505,
+  longitude: -0.09,
+  latitudeDelta: 0.01,
+  longitudeDelta: 0.01,
+};
 
-interface Props {
-  track?: UserPin['track'];
-}
+const SPOTIFY_GREEN = '#1DB954';
+const PIN_OTHER = '#FF4444';
 
-export default function MapScreen({ track }: Props) {
-  const { pins, locationGranted, sessionId, sendReaction } = useLocationSocket(track);
-  const [selectedPin, setSelectedPin] = useState<UserPin | null>(null);
+export default function MapScreen() {
+  const { track } = useSpotifyContext();
+  const { pins, connected, socket } = useSocket();
+  const mapRef = useRef<MapView>(null);
+  const [selectedPinId, setSelectedPinId] = useState<string | null>(null);
+  // Derive from live pins so reaction counts update without reopening the sheet
+  const selectedPin = selectedPinId ? (pins.find(p => p.sessionId === selectedPinId) ?? null) : null;
 
-  if (!locationGranted) {
-    return (
-      <View style={styles.center}>
-        <Text style={styles.message}>Location permission is required to show the map.</Text>
-      </View>
-    );
+  // Emit GPS + current track every 15 s
+  useLocation({ socket, track });
+
+  // Centre map on user's position once on mount
+  useEffect(() => {
+    (async () => {
+      const { status } = await Location.getForegroundPermissionsAsync();
+      if (status !== 'granted') return;
+      const loc = await Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.Balanced });
+      mapRef.current?.animateToRegion({
+        latitude: loc.coords.latitude,
+        longitude: loc.coords.longitude,
+        latitudeDelta: 0.01,
+        longitudeDelta: 0.01,
+      });
+    })();
+  }, []);
+
+  function handleReact(emoji: ReactionPayload['emoji']) {
+    if (!selectedPin) return;
+    socket?.emit('reaction', {
+      pinSessionId: selectedPin.sessionId,
+      emoji,
+    } satisfies ReactionPayload);
   }
 
   return (
     <View style={styles.container}>
       <MapView
+        ref={mapRef}
         style={styles.map}
+        initialRegion={INITIAL_REGION}
         showsUserLocation={false}
-        showsMyLocationButton={false}
       >
         {pins.map((pin) => (
-          <Marker
+          <PinMarker
             key={pin.sessionId}
-            coordinate={{ latitude: pin.latitude, longitude: pin.longitude }}
-            pinColor={pin.sessionId === sessionId ? '#1DB954' : '#FF6B6B'}
-            onPress={() => setSelectedPin(pin)}
+            pin={pin}
+            onPress={() => setSelectedPinId(pin.sessionId)}
           />
         ))}
       </MapView>
 
-      {/* Bottom sheet — shown when a pin is tapped */}
-      <Modal
-        visible={selectedPin !== null}
-        transparent
-        animationType="slide"
-        onRequestClose={() => setSelectedPin(null)}
-      >
-        <TouchableOpacity
-          style={styles.overlay}
-          activeOpacity={1}
-          onPress={() => setSelectedPin(null)}
-        />
-        {selectedPin && (
-          <View style={styles.sheet}>
-            <View style={styles.sheetHandle} />
+      <View style={[styles.badge, connected ? styles.badgeConnected : styles.badgeDisconnected]}>
+        <Text style={styles.badgeText}>
+          {connected ? `● ${pins.length} online` : '○ reconnecting…'}
+        </Text>
+      </View>
 
-            {selectedPin.track ? (
-              <View style={styles.trackRow}>
-                {selectedPin.track.albumArt ? (
-                  <Image source={{ uri: selectedPin.track.albumArt }} style={styles.albumArt} />
-                ) : null}
-                <View style={styles.trackText}>
-                  <Text style={styles.trackName} numberOfLines={2}>
-                    {selectedPin.track.name}
-                  </Text>
-                  <Text style={styles.artist} numberOfLines={1}>
-                    {selectedPin.track.artist}
-                  </Text>
-                </View>
-              </View>
-            ) : (
-              <Text style={styles.noTrack}>Nothing playing</Text>
-            )}
-
-            {/* Emoji reactions */}
-            <View style={styles.reactions}>
-              {REACTIONS.map((emoji) => (
-                <TouchableOpacity
-                  key={emoji}
-                  style={styles.reactionBtn}
-                  onPress={() => {
-                    sendReaction(selectedPin.sessionId, emoji);
-                    setSelectedPin(null);
-                  }}
-                >
-                  <Text style={styles.reactionEmoji}>{emoji}</Text>
-                </TouchableOpacity>
-              ))}
-            </View>
-          </View>
-        )}
-      </Modal>
+      <PinBottomSheet
+        pin={selectedPin}
+        socket={socket}
+        onClose={() => setSelectedPinId(null)}
+        onReact={handleReact}
+      />
     </View>
+  );
+}
+
+function PinMarker({ pin, onPress }: { pin: UserPin; onPress: () => void }) {
+  const [ownId, setOwnId] = useState<string | null>(null);
+
+  useEffect(() => {
+    getSessionId().then(setOwnId);
+  }, []);
+
+  const isOwn = ownId !== null && pin.sessionId === ownId;
+
+  return (
+    <Marker
+      coordinate={{ latitude: pin.latitude, longitude: pin.longitude }}
+      pinColor={isOwn ? SPOTIFY_GREEN : PIN_OTHER}
+      // No title/description — suppresses the native callout so the custom
+      // bottom sheet is the only UI that appears on tap
+      onPress={onPress}
+    />
   );
 }
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
   map: { flex: 1 },
-  center: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#121212',
-    padding: 24,
-  },
-  message: { color: '#b3b3b3', textAlign: 'center', fontSize: 16 },
-  overlay: {
-    flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.4)',
-  },
-  sheet: {
-    backgroundColor: '#1e1e1e',
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
-    padding: 24,
-    paddingBottom: 40,
-    gap: 20,
-  },
-  sheetHandle: {
-    width: 40,
-    height: 4,
-    backgroundColor: '#444',
-    borderRadius: 2,
+  badge: {
+    position: 'absolute',
+    top: 16,
     alignSelf: 'center',
-    marginBottom: 4,
+    paddingHorizontal: 14,
+    paddingVertical: 6,
+    borderRadius: 20,
   },
-  trackRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 16,
-  },
-  albumArt: {
-    width: 64,
-    height: 64,
-    borderRadius: 6,
-  },
-  trackText: { flex: 1, gap: 4 },
-  trackName: { fontSize: 18, fontWeight: '700', color: '#fff' },
-  artist: { fontSize: 14, color: '#b3b3b3' },
-  noTrack: { fontSize: 16, color: '#b3b3b3', textAlign: 'center' },
-  reactions: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-  },
-  reactionBtn: {
-    backgroundColor: '#2a2a2a',
-    borderRadius: 40,
-    width: 60,
-    height: 60,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  reactionEmoji: { fontSize: 28 },
+  badgeConnected: { backgroundColor: 'rgba(0,0,0,0.6)' },
+  badgeDisconnected: { backgroundColor: 'rgba(80,0,0,0.7)' },
+  badgeText: { color: '#FFFFFF', fontSize: 13, fontWeight: '600' },
 });

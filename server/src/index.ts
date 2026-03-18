@@ -1,16 +1,12 @@
 import 'dotenv/config';
-import express from 'express';
 import { createServer } from 'http';
+import express from 'express';
 import { Server } from 'socket.io';
-import { registerLocationNamespace } from './location';
+import { registerLocationNamespace } from './location/namespace';
+import { migrate } from './db';
 
 const app = express();
-const httpServer = createServer(app);
 const PORT = process.env.PORT ?? 3000;
-
-const io = new Server(httpServer, {
-  cors: { origin: '*' },
-});
 
 app.use(express.json());
 
@@ -19,8 +15,19 @@ app.get('/health', (_req, res) => {
   res.json({ status: 'ok', service: 'wavemap-server' });
 });
 
+// Socket.io requires an http.Server — cannot attach to the express app directly
+const httpServer = createServer(app);
+
+const io = new Server(httpServer, {
+  // Allow all origins during development; lock this down before production
+  cors: { origin: '*' },
+});
+
 registerLocationNamespace(io);
 
-httpServer.listen(PORT, () => {
-  console.log(`Wavemap server running on port ${PORT}`);
+migrate().then(() => {
+  httpServer.listen(PORT, () => {
+    console.log(`Wavemap server running on http://localhost:${PORT}`);
+    console.log(`Socket.io /location namespace ready`);
+  });
 });

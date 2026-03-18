@@ -8,7 +8,7 @@ dist/
 build/
 *.tsbuildinfo
 
-# Environment variables
+# Environment variables — never commit secrets
 .env
 .env.local
 .env.*.local
