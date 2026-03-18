@@ -25,9 +25,8 @@ socket.on('connect_error', (err) => {
 function emitLocation() {
   socket.emit('location:update', {
     sessionId,
-    // Tweak lat/lng to put this pin near your real device's location
-    latitude: 51.5074,
-    longitude: -0.1278,
+    latitude: 55.9441,   // Nicholson Street, Edinburgh
+    longitude: -3.1855,
     updatedAt: new Date().toISOString(),
     track: {
       id: 'demo',

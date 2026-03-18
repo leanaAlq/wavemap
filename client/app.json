@@ -11,8 +11,13 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
+    "scheme": "wavemap",
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.wavemap.app",
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "Wavemap shows your location on the map so nearby users can find you."
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -25,6 +30,10 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "plugins": [
+      "expo-web-browser",
+      "expo-location"
+    ]
   }
 }

@@ -26,17 +26,9 @@ target 'wavemap' do
   if ENV['EXPO_USE_COMMUNITY_AUTOLINKING'] == '1'
     config_command = ['node', '-e', "process.argv=['', '', 'config'];require('@react-native-community/cli').run()"];
   else
-    config_command = [
-      'node',
-      '--no-warnings',
-      '--eval',
-      'require(\'expo/bin/autolinking\')',
-      'expo-modules-autolinking',
-      'react-native-config',
-      '--json',
-      '--platform',
-      'ios'
-    ]
+    # Wrapper injects reactNativePath which RN 0.83's autolinking.rb requires
+    # but Expo SDK 55's autolinking command doesn't emit.
+    config_command = ['node', File.join(__dir__, 'expo-autolinking-wrapper.js')]
   end
 
   config = use_native_modules!(config_command)
