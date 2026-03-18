@@ -1,18 +1,23 @@
 import { ActivityIndicator, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { useNowPlaying } from '../hooks/useNowPlaying';
-import { useSpotifyAuth } from '../hooks/useSpotifyAuth';
+import type { SpotifyTokens } from '../hooks/useSpotifyAuth';
+import type { NowPlayingTrack } from '../hooks/useNowPlaying';
 
-export default function NowPlayingScreen() {
-  const { tokens, promptAsync, ready } = useSpotifyAuth();
-  const { track, error } = useNowPlaying(tokens?.accessToken ?? null);
+interface Props {
+  tokens: SpotifyTokens | null;
+  promptAsync: () => void;
+  ready: boolean;
+  track: NowPlayingTrack | null | undefined;
+  error: string | null;
+}
 
+export default function NowPlayingScreen({ tokens, promptAsync, ready, track, error }: Props) {
   if (!tokens) {
     return (
       <View style={styles.center}>
         <Text style={styles.appTitle}>Wavemap</Text>
         <TouchableOpacity
           style={[styles.loginButton, !ready && styles.disabled]}
-          onPress={() => promptAsync()}
+          onPress={promptAsync}
           disabled={!ready}
         >
           <Text style={styles.loginText}>Connect Spotify</Text>
@@ -97,9 +102,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '700',
   },
-  disabled: {
-    opacity: 0.5,
-  },
+  disabled: { opacity: 0.5 },
   albumArt: {
     width: 280,
     height: 280,
@@ -127,29 +130,11 @@ const styles = StyleSheet.create({
     gap: 6,
     marginTop: 4,
   },
-  dot: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
-  },
+  dot: { width: 8, height: 8, borderRadius: 4 },
   dotPlaying: { backgroundColor: '#1DB954' },
   dotPaused: { backgroundColor: '#b3b3b3' },
-  statusText: {
-    color: '#b3b3b3',
-    fontSize: 13,
-  },
-  subtitle: {
-    fontSize: 18,
-    color: '#fff',
-    marginBottom: 8,
-  },
-  hint: {
-    fontSize: 14,
-    color: '#b3b3b3',
-  },
-  error: {
-    color: '#ff4444',
-    fontSize: 14,
-    textAlign: 'center',
-  },
+  statusText: { color: '#b3b3b3', fontSize: 13 },
+  subtitle: { fontSize: 18, color: '#fff', marginBottom: 8 },
+  hint: { fontSize: 14, color: '#b3b3b3' },
+  error: { color: '#ff4444', fontSize: 14, textAlign: 'center' },
 });

@@ -7,15 +7,17 @@ import { randomSessionId } from '../utils/session';
 const SERVER_URL = process.env.EXPO_PUBLIC_SERVER_URL ?? 'http://localhost:3000';
 const EMIT_INTERVAL_MS = 15_000;
 
-// One anonymous session ID per app launch — not persisted
 const SESSION_ID = randomSessionId();
 
 export function useLocationSocket(track?: UserPin['track']) {
   const [pins, setPins] = useState<UserPin[]>([]);
   const [locationGranted, setLocationGranted] = useState(false);
   const socketRef = useRef<Socket | null>(null);
+  // Keep track in a ref so location emissions always use the latest value
+  // without causing the socket to reconnect on every track change.
+  const trackRef = useRef(track);
+  useEffect(() => { trackRef.current = track; }, [track]);
 
-  // Request location permission once on mount
   useEffect(() => {
     Location.requestForegroundPermissionsAsync().then(({ status }) => {
       setLocationGranted(status === 'granted');
@@ -34,13 +36,12 @@ export function useLocationSocket(track?: UserPin['track']) {
       const loc = await Location.getCurrentPositionAsync({
         accuracy: Location.Accuracy.Balanced,
       });
-
       socket.emit('location:update', {
         sessionId: SESSION_ID,
         latitude: loc.coords.latitude,
         longitude: loc.coords.longitude,
         updatedAt: new Date().toISOString(),
-        track,
+        track: trackRef.current,
       });
     }
 
@@ -51,7 +52,11 @@ export function useLocationSocket(track?: UserPin['track']) {
       clearInterval(timer);
       socket.disconnect();
     };
-  }, [locationGranted, track]);
+  }, [locationGranted]); // socket created once; track updates via ref
 
-  return { pins, locationGranted, sessionId: SESSION_ID };
+  function sendReaction(pinSessionId: string, emoji: string) {
+    socketRef.current?.emit('reaction:send', { pinSessionId, emoji });
+  }
+
+  return { pins, locationGranted, sessionId: SESSION_ID, sendReaction };
 }

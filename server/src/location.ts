@@ -59,6 +59,11 @@ export function registerLocationNamespace(io: Server) {
       },
     );
 
+    socket.on('reaction:send', (payload: { pinSessionId: string; emoji: string }) => {
+      // Broadcast the reaction to all clients so the target pin can show it
+      ns.emit('reaction:received', payload);
+    });
+
     socket.on('disconnect', () => {
       console.log('User disconnected from /location:', socket.id);
       // We don't remove immediately — let stale eviction handle it so brief
