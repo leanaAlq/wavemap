@@ -2,7 +2,8 @@
   "name": "shared",
   "version": "1.0.0",
   "private": true,
-  "main": "src/types.ts",
+  "main": "dist/types.js",
+  "types": "dist/types.d.ts",
   "scripts": {
     "build": "tsc"
   },
