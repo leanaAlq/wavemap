@@ -6,9 +6,10 @@ import {
   TouchableOpacity,
   StyleSheet,
   ActivityIndicator,
+  Share,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Share } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { useSpotifyContext } from '../context/SpotifyContext';
 
 export default function NowPlayingScreen() {
@@ -102,7 +103,7 @@ export default function NowPlayingScreen() {
         {/* Nothing playing state */}
         {!trackLoading && !track && lastUpdated ? (
           <View style={styles.emptyState}>
-            <Text style={styles.emptyIcon}>🎵</Text>
+            <Ionicons name="musical-notes" size={72} color={MUTED} />
             <Text style={styles.emptyHeading}>Nothing playing</Text>
             <Text style={styles.emptyBody}>Open Spotify and start a track</Text>
           </View>
@@ -120,7 +121,7 @@ export default function NowPlayingScreen() {
             ) : (
               // Fallback when Spotify returns no image URL
               <View style={[styles.albumArt, styles.albumArtFallback]}>
-                <Text style={styles.albumArtFallbackIcon}>🎵</Text>
+                <Ionicons name="musical-notes" size={80} color={MUTED} />
               </View>
             )}
             <Text style={styles.trackName} numberOfLines={2}>
@@ -224,9 +225,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  albumArtFallbackIcon: {
-    fontSize: 80,
-  },
   trackName: {
     fontSize: 22,
     fontWeight: 'bold',
@@ -250,10 +248,6 @@ const styles = StyleSheet.create({
   emptyState: {
     alignItems: 'center',
     gap: 8,
-  },
-  emptyIcon: {
-    fontSize: 72,
-    marginBottom: 8,
   },
   emptyHeading: {
     fontSize: 20,

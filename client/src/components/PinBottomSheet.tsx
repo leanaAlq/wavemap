@@ -15,6 +15,7 @@ import {
 import { Socket } from 'socket.io-client';
 import { UserPin, ReactionPayload, Comment } from 'shared';
 import { useComments } from '../hooks/useComments';
+import { Ionicons } from '@expo/vector-icons';
 
 const REACTIONS: ReactionPayload['emoji'][] = ['👍', '🔥', '❤️', '🎵'];
 const MAX_LENGTH = 280;
@@ -69,7 +70,7 @@ export function PinBottomSheet({ pin, socket, onClose, onReact }: Props) {
                 <Image source={{ uri: pin.track.albumArt }} style={styles.albumArt} />
               ) : (
                 <View style={[styles.albumArt, styles.albumArtFallback]}>
-                  <Text style={{ fontSize: 28 }}>🎵</Text>
+                  <Ionicons name="musical-notes" size={28} color={MUTED} />
                 </View>
               )}
               <View style={styles.trackInfo}>
@@ -144,13 +145,13 @@ export function PinBottomSheet({ pin, socket, onClose, onReact }: Props) {
                 disabled={!draft.trim()}
                 style={styles.sendBtn}
               >
-                <Text style={{ fontSize: 20, opacity: draft.trim() ? 1 : 0.3 }}>➤</Text>
+                <Ionicons name="send" size={20} color={draft.trim() ? SPOTIFY_GREEN : DIM} />
               </TouchableOpacity>
             </View>
           </>
         ) : (
           <View style={styles.emptyState}>
-            <Text style={{ fontSize: 48 }}>🎵</Text>
+            <Ionicons name="musical-notes" size={48} color={MUTED} />
             <Text style={styles.emptyText}>Nothing playing right now</Text>
           </View>
         )}
