@@ -18,6 +18,13 @@ import { useComments } from '../hooks/useComments';
 import { Ionicons } from '@expo/vector-icons';
 
 const REACTIONS: ReactionPayload['emoji'][] = ['👍', '🔥', '❤️', '🎵'];
+
+const REACTION_ICONS: Record<ReactionPayload['emoji'], React.ComponentProps<typeof Ionicons>['name']> = {
+  '👍': 'thumbs-up',
+  '🔥': 'flame',
+  '❤️': 'heart',
+  '🎵': 'musical-note',
+};
 const MAX_LENGTH = 280;
 
 interface Props {
@@ -91,7 +98,11 @@ export function PinBottomSheet({ pin, socket, onClose, onReact }: Props) {
                     onPress={() => handleReact(emoji)}
                     activeOpacity={0.7}
                   >
-                    <Text style={styles.emojiChar}>{emoji}</Text>
+                    <Ionicons
+                      name={REACTION_ICONS[emoji]}
+                      size={24}
+                      color={active ? '#000' : MUTED}
+                    />
                     {count > 0 && (
                       <Text style={[styles.reactionCount, active && styles.reactionCountActive]}>
                         {count}
@@ -251,9 +262,6 @@ const styles = StyleSheet.create({
   },
   emojiBtnActive: {
     backgroundColor: SPOTIFY_GREEN,
-  },
-  emojiChar: {
-    fontSize: 24,
   },
   reactionCount: {
     fontSize: 11,
