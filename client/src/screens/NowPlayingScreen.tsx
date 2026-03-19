@@ -8,7 +8,7 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import Clipboard from '@react-native-clipboard/clipboard';
+import { Share } from 'react-native';
 import { useSpotifyContext } from '../context/SpotifyContext';
 
 export default function NowPlayingScreen() {
@@ -52,7 +52,7 @@ export default function NowPlayingScreen() {
         <View style={styles.redirectBox}>
           <Text style={styles.redirectLabel}>Redirect URI for Spotify dashboard</Text>
           <TouchableOpacity
-            onPress={() => Clipboard.setString(redirectUri)}
+            onPress={() => Share.share({ message: redirectUri })}
             activeOpacity={0.7}
           >
             <Text style={styles.redirectUri}>{redirectUri}</Text>
