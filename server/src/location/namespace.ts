@@ -87,18 +87,20 @@ export function registerLocationNamespace(io: Server): void {
       const trimmed = text.trim().slice(0, 280);
       if (!trimmed) return;
 
-      // Use the session mapped from location:update — client doesn't supply their own ID
-      const authorSessionId = socketToSession.get(socket.id);
-      if (!authorSessionId) return; // must have sent location first
+      // Use the session mapped from location:update, fall back to socket ID as anon author
+      const authorSessionId = socketToSession.get(socket.id) ?? socket.id;
 
       try {
         const comment = await insertComment(pinSessionId, authorSessionId, trimmed);
 
-        // Broadcast only to sockets within 500 m of the pin
+        // Always echo back to the author so their UI updates immediately
+        socket.emit('comment:new', comment);
+
+        // Broadcast to other sockets within 500 m of the pin
         const pin = pinStore.getAll().find(p => p.sessionId === pinSessionId);
         for (const [sid, sessionId] of socketToSession) {
+          if (sid === socket.id) continue; // already sent above
           const viewer = pinStore.getAll().find(p => p.sessionId === sessionId);
-          // If we don't know the viewer's position yet, send it anyway
           const withinRange = !pin || !viewer ||
             distanceMetres(viewer.latitude, viewer.longitude, pin.latitude, pin.longitude) <= 500;
           if (withinRange) {
