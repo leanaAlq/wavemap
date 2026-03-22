@@ -1,5 +1,5 @@
 // Simulates a second user for demo/video recording purposes.
-// Usage: DEMO_SERVER=https://wavemap.up.railway.app node scripts/demo-user.mjs
+// Usage: DEMO_SERVER=https://radii.up.railway.app node scripts/demo-user.mjs
 //
 // Connects to the /location namespace as a fake user with a hardcoded
 // location + track, so the map shows two pins without a second real device.

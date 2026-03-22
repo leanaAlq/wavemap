@@ -16,6 +16,7 @@ import { Socket } from 'socket.io-client';
 import { UserPin, ReactionPayload, Comment } from 'shared';
 import { useComments } from '../hooks/useComments';
 import { Ionicons } from '@expo/vector-icons';
+import { Colors, Typography, Spacing } from '../theme';
 
 const REACTIONS: ReactionPayload['emoji'][] = ['👍', '🔥', '❤️', '🎵'];
 
@@ -77,7 +78,7 @@ export function PinBottomSheet({ pin, socket, onClose, onReact }: Props) {
                 <Image source={{ uri: pin.track.albumArt }} style={styles.albumArt} />
               ) : (
                 <View style={[styles.albumArt, styles.albumArtFallback]}>
-                  <Ionicons name="musical-notes" size={28} color={MUTED} />
+                  <Ionicons name="musical-notes" size={28} color={Colors.grey400} />
                 </View>
               )}
               <View style={styles.trackInfo}>
@@ -101,7 +102,7 @@ export function PinBottomSheet({ pin, socket, onClose, onReact }: Props) {
                     <Ionicons
                       name={REACTION_ICONS[emoji]}
                       size={24}
-                      color={active ? '#000' : MUTED}
+                      color={active ? Colors.white : Colors.purpleMid}
                     />
                     {count > 0 && (
                       <Text style={[styles.reactionCount, active && styles.reactionCountActive]}>
@@ -118,7 +119,7 @@ export function PinBottomSheet({ pin, socket, onClose, onReact }: Props) {
             {/* Comments */}
             {commentsLoading ? (
               <View style={styles.loadingRow}>
-                <ActivityIndicator size="small" color={SPOTIFY_GREEN} />
+                <ActivityIndicator size="small" color={Colors.purple} />
               </View>
             ) : (
               <FlatList
@@ -139,7 +140,7 @@ export function PinBottomSheet({ pin, socket, onClose, onReact }: Props) {
               <TextInput
                 style={styles.input}
                 placeholder="Add a comment…"
-                placeholderTextColor={DIM}
+                placeholderTextColor={Colors.grey600}
                 value={draft}
                 onChangeText={setDraft}
                 maxLength={MAX_LENGTH}
@@ -156,13 +157,13 @@ export function PinBottomSheet({ pin, socket, onClose, onReact }: Props) {
                 disabled={!draft.trim()}
                 style={styles.sendBtn}
               >
-                <Ionicons name="send" size={20} color={draft.trim() ? SPOTIFY_GREEN : DIM} />
+                <Ionicons name="send" size={20} color={draft.trim() ? Colors.white : Colors.grey600} />
               </TouchableOpacity>
             </View>
           </>
         ) : (
           <View style={styles.emptyState}>
-            <Ionicons name="musical-notes" size={48} color={MUTED} />
+            <Ionicons name="musical-notes" size={48} color={Colors.grey400} />
             <Text style={styles.emptyText}>Nothing playing right now</Text>
           </View>
         )}
@@ -187,30 +188,24 @@ function CommentRow({ comment }: { comment: Comment }) {
   );
 }
 
-const BG = '#1A1A1A';
-const WHITE = '#FFFFFF';
-const MUTED = '#B3B3B3';
-const DIM = '#555';
-const SPOTIFY_GREEN = '#1DB954';
-
 const styles = StyleSheet.create({
   backdrop: {
     flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.5)',
+    backgroundColor: 'rgba(26,10,46,0.7)',
   },
   sheet: {
-    backgroundColor: BG,
+    backgroundColor: Colors.darkSurface,
     borderTopLeftRadius: 24,
     borderTopRightRadius: 24,
-    paddingHorizontal: 20,
+    paddingHorizontal: Spacing.screen,
     paddingBottom: 36,
     paddingTop: 12,
     maxHeight: '82%',
   },
   handle: {
-    width: 36,
+    width: 40,
     height: 4,
-    backgroundColor: '#444',
+    backgroundColor: Colors.grey400,
     borderRadius: 2,
     alignSelf: 'center',
     marginBottom: 20,
@@ -224,8 +219,8 @@ const styles = StyleSheet.create({
   albumArt: {
     width: 60,
     height: 60,
-    borderRadius: 8,
-    backgroundColor: '#333',
+    borderRadius: 12,
+    backgroundColor: Colors.darkBg,
   },
   albumArtFallback: {
     alignItems: 'center',
@@ -236,14 +231,12 @@ const styles = StyleSheet.create({
     gap: 3,
   },
   trackName: {
-    fontSize: 16,
-    fontWeight: '700',
-    color: WHITE,
-    lineHeight: 20,
+    ...Typography.h2,
+    color: Colors.white,
   },
   artistName: {
-    fontSize: 13,
-    color: MUTED,
+    ...Typography.bodyMed,
+    color: Colors.grey400,
   },
   reactions: {
     flexDirection: 'row',
@@ -254,26 +247,28 @@ const styles = StyleSheet.create({
     minWidth: 60,
     paddingVertical: 10,
     paddingHorizontal: 12,
-    borderRadius: 30,
-    backgroundColor: '#2A2A2A',
+    borderRadius: 20,
+    backgroundColor: Colors.darkSurface,
     alignItems: 'center',
     justifyContent: 'center',
     gap: 2,
   },
   emojiBtnActive: {
-    backgroundColor: SPOTIFY_GREEN,
+    backgroundColor: Colors.purple,
+    borderColor: Colors.purpleMid,
+    borderWidth: 1,
   },
   reactionCount: {
-    fontSize: 11,
+    ...Typography.tiny,
     fontWeight: '700',
-    color: MUTED,
+    color: Colors.white,
   },
   reactionCountActive: {
-    color: '#000',
+    color: Colors.white,
   },
   divider: {
     height: StyleSheet.hairlineWidth,
-    backgroundColor: '#333',
+    backgroundColor: Colors.grey600,
     marginBottom: 10,
   },
   loadingRow: {
@@ -285,7 +280,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   noComments: {
-    color: DIM,
+    color: Colors.grey400,
     fontSize: 13,
     textAlign: 'center',
     paddingVertical: 20,
@@ -296,18 +291,18 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     paddingVertical: 9,
     borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: '#2A2A2A',
+    borderBottomColor: Colors.darkBg,
     gap: 8,
   },
   commentText: {
     flex: 1,
     fontSize: 14,
-    color: WHITE,
+    color: Colors.white,
     lineHeight: 20,
   },
   commentTime: {
     fontSize: 11,
-    color: DIM,
+    color: Colors.grey600,
     marginTop: 3,
     flexShrink: 0,
   },
@@ -316,30 +311,34 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 8,
     borderTopWidth: StyleSheet.hairlineWidth,
-    borderTopColor: '#2A2A2A',
+    borderTopColor: Colors.darkBg,
     paddingTop: 12,
   },
   input: {
     flex: 1,
     height: 40,
-    backgroundColor: '#2A2A2A',
-    borderRadius: 20,
+    backgroundColor: Colors.darkSurface,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: Colors.grey600,
     paddingHorizontal: 16,
     fontSize: 14,
-    color: WHITE,
+    color: Colors.white,
   },
   charCount: {
     fontSize: 12,
-    color: DIM,
+    color: Colors.grey600,
     minWidth: 28,
     textAlign: 'right',
   },
   charCountWarn: {
-    color: '#FF6B35',
+    color: Colors.pink,
   },
   sendBtn: {
     width: 36,
     height: 36,
+    backgroundColor: Colors.purple,
+    borderRadius: 14,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -350,6 +349,6 @@ const styles = StyleSheet.create({
   },
   emptyText: {
     fontSize: 15,
-    color: MUTED,
+    color: Colors.grey400,
   },
 });

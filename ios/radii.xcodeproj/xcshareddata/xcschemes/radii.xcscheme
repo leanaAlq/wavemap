@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-               BuildableName = "wavemap.app"
-               BlueprintName = "wavemap"
-               ReferencedContainer = "container:wavemap.xcodeproj">
+               BuildableName = "radii.app"
+               BlueprintName = "radii"
+               ReferencedContainer = "container:radii.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "00E356ED1AD99517003FC87E"
-               BuildableName = "wavemapTests.xctest"
-               BlueprintName = "wavemapTests"
-               ReferencedContainer = "container:wavemap.xcodeproj">
+               BuildableName = "radiiTests.xctest"
+               BlueprintName = "radiiTests"
+               ReferencedContainer = "container:radii.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -55,9 +55,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "wavemap.app"
-            BlueprintName = "wavemap"
-            ReferencedContainer = "container:wavemap.xcodeproj">
+            BuildableName = "radii.app"
+            BlueprintName = "radii"
+            ReferencedContainer = "container:radii.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -72,9 +72,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "wavemap.app"
-            BlueprintName = "wavemap"
-            ReferencedContainer = "container:wavemap.xcodeproj">
+            BuildableName = "radii.app"
+            BlueprintName = "radii"
+            ReferencedContainer = "container:radii.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

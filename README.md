@@ -1,4 +1,4 @@
-# Wavemap
+# Radii
 
 A location-based music social app. Users broadcast what they're listening to via a live GPS map. Others nearby can see, react to, and comment on tracks publicly.
 

@@ -11,12 +11,9 @@ import NowPlayingScreen from './src/screens/NowPlayingScreen';
 import MapScreen from './src/screens/MapScreen';
 import { SpotifyProvider } from './src/context/SpotifyContext';
 import { Ionicons } from '@expo/vector-icons';
+import { Colors } from './src/theme';
 
 const Tab = createBottomTabNavigator();
-
-const BG = '#121212';
-const SPOTIFY_GREEN = '#1DB954';
-const MUTED = '#535353';
 
 export default function App() {
   return (
@@ -27,9 +24,9 @@ export default function App() {
         <Tab.Navigator
           screenOptions={{
             headerShown: false,
-            tabBarStyle: { backgroundColor: BG, borderTopColor: '#2A2A2A' },
-            tabBarActiveTintColor: SPOTIFY_GREEN,
-            tabBarInactiveTintColor: MUTED,
+            tabBarStyle: { backgroundColor: Colors.darkBg, borderTopColor: Colors.grey600 },
+            tabBarActiveTintColor: Colors.purple,
+            tabBarInactiveTintColor: Colors.grey600,
           }}
         >
           <Tab.Screen

@@ -12,22 +12,22 @@
 		B642A307BA7EBB80EFD3CE51 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 0F5B009B139F18D7C077964B /* PrivacyInfo.xcprivacy */; };
 		BB2F792D24A3F905000567C9 /* Expo.plist in Resources */ = {isa = PBXBuildFile; fileRef = BB2F792C24A3F905000567C9 /* Expo.plist */; };
 		F11748422D0307B40044C1D9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F11748412D0307B40044C1D9 /* AppDelegate.swift */; };
-		FBFAA6C567D8C14B60F41807 /* libPods-wavemap.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D9872F6B276A6F526460E22 /* libPods-wavemap.a */; };
+		FBFAA6C567D8C14B60F41807 /* libPods-radii.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D9872F6B276A6F526460E22 /* libPods-radii.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		0D5D150FCDD9F35FE21D86E0 /* Pods-wavemap.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-wavemap.debug.xcconfig"; path = "Target Support Files/Pods-wavemap/Pods-wavemap.debug.xcconfig"; sourceTree = "<group>"; };
-		0F5B009B139F18D7C077964B /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; name = PrivacyInfo.xcprivacy; path = wavemap/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
-		13B07F961A680F5B00A75B9A /* wavemap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = wavemap.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = wavemap/Images.xcassets; sourceTree = "<group>"; };
-		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = wavemap/Info.plist; sourceTree = "<group>"; };
-		3D9872F6B276A6F526460E22 /* libPods-wavemap.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-wavemap.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		71CFCD5E48C75BD1A0A3FA27 /* Pods-wavemap.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-wavemap.release.xcconfig"; path = "Target Support Files/Pods-wavemap/Pods-wavemap.release.xcconfig"; sourceTree = "<group>"; };
-		AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = SplashScreen.storyboard; path = wavemap/SplashScreen.storyboard; sourceTree = "<group>"; };
+		0D5D150FCDD9F35FE21D86E0 /* Pods-radii.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-radii.debug.xcconfig"; path = "Target Support Files/Pods-radii/Pods-radii.debug.xcconfig"; sourceTree = "<group>"; };
+		0F5B009B139F18D7C077964B /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; name = PrivacyInfo.xcprivacy; path = radii/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		13B07F961A680F5B00A75B9A /* radii.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = radii.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = radii/Images.xcassets; sourceTree = "<group>"; };
+		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = radii/Info.plist; sourceTree = "<group>"; };
+		3D9872F6B276A6F526460E22 /* libPods-radii.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-radii.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		71CFCD5E48C75BD1A0A3FA27 /* Pods-radii.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-radii.release.xcconfig"; path = "Target Support Files/Pods-radii/Pods-radii.release.xcconfig"; sourceTree = "<group>"; };
+		AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = SplashScreen.storyboard; path = radii/SplashScreen.storyboard; sourceTree = "<group>"; };
 		BB2F792C24A3F905000567C9 /* Expo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Expo.plist; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
-		F11748412D0307B40044C1D9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = wavemap/AppDelegate.swift; sourceTree = "<group>"; };
-		F11748442D0722820044C1D9 /* wavemap-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "wavemap-Bridging-Header.h"; path = "wavemap/wavemap-Bridging-Header.h"; sourceTree = "<group>"; };
+		F11748412D0307B40044C1D9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = radii/AppDelegate.swift; sourceTree = "<group>"; };
+		F11748442D0722820044C1D9 /* radii-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "radii-Bridging-Header.h"; path = "radii/radii-Bridging-Header.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -35,32 +35,32 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FBFAA6C567D8C14B60F41807 /* libPods-wavemap.a in Frameworks */,
+				FBFAA6C567D8C14B60F41807 /* libPods-radii.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		13B07FAE1A68108700A75B9A /* wavemap */ = {
+		13B07FAE1A68108700A75B9A /* radii */ = {
 			isa = PBXGroup;
 			children = (
 				F11748412D0307B40044C1D9 /* AppDelegate.swift */,
-				F11748442D0722820044C1D9 /* wavemap-Bridging-Header.h */,
+				F11748442D0722820044C1D9 /* radii-Bridging-Header.h */,
 				BB2F792B24A3F905000567C9 /* Supporting */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */,
 				0F5B009B139F18D7C077964B /* PrivacyInfo.xcprivacy */,
 			);
-			name = wavemap;
+			name = radii;
 			sourceTree = "<group>";
 		};
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				3D9872F6B276A6F526460E22 /* libPods-wavemap.a */,
+				3D9872F6B276A6F526460E22 /* libPods-radii.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -75,7 +75,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				13B07FAE1A68108700A75B9A /* wavemap */,
+				13B07FAE1A68108700A75B9A /* radii */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
@@ -89,7 +89,7 @@
 		83CBBA001A601CBA00E9B192 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				13B07F961A680F5B00A75B9A /* wavemap.app */,
+				13B07F961A680F5B00A75B9A /* radii.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -100,14 +100,14 @@
 				BB2F792C24A3F905000567C9 /* Expo.plist */,
 			);
 			name = Supporting;
-			path = wavemap/Supporting;
+			path = radii/Supporting;
 			sourceTree = "<group>";
 		};
 		E413FA0F6DD19CBA3AC51C0B /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				0D5D150FCDD9F35FE21D86E0 /* Pods-wavemap.debug.xcconfig */,
-				71CFCD5E48C75BD1A0A3FA27 /* Pods-wavemap.release.xcconfig */,
+				0D5D150FCDD9F35FE21D86E0 /* Pods-radii.debug.xcconfig */,
+				71CFCD5E48C75BD1A0A3FA27 /* Pods-radii.release.xcconfig */,
 			);
 			name = Pods;
 			path = Pods;
@@ -116,9 +116,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		13B07F861A680F5B00A75B9A /* wavemap */ = {
+		13B07F861A680F5B00A75B9A /* radii */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "wavemap" */;
+			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "radii" */;
 			buildPhases = (
 				08A4A3CD28434E44B6B9DE2E /* [CP] Check Pods Manifest.lock */,
 				13B07F871A680F5B00A75B9A /* Sources */,
@@ -132,9 +132,9 @@
 			);
 			dependencies = (
 			);
-			name = wavemap;
-			productName = wavemap;
-			productReference = 13B07F961A680F5B00A75B9A /* wavemap.app */;
+			name = radii;
+			productName = radii;
+			productReference = 13B07F961A680F5B00A75B9A /* radii.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -150,7 +150,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "wavemap" */;
+			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "radii" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -163,7 +163,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				13B07F861A680F5B00A75B9A /* wavemap */,
+				13B07F861A680F5B00A75B9A /* radii */,
 			);
 		};
 /* End PBXProject section */
@@ -215,7 +215,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-wavemap-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-radii-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -228,7 +228,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-wavemap/Pods-wavemap-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-radii/Pods-radii-frameworks.sh",
 				"${PODS_XCFRAMEWORKS_BUILD_DIR}/React-Core-prebuilt/React.framework/React",
 				"${PODS_XCFRAMEWORKS_BUILD_DIR}/ReactNativeDependencies/ReactNativeDependencies.framework/ReactNativeDependencies",
 				"${PODS_XCFRAMEWORKS_BUILD_DIR}/hermes-engine/Pre-built/hermesvm.framework/hermesvm",
@@ -241,7 +241,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-wavemap/Pods-wavemap-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-radii/Pods-radii-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		800E24972A6A228C8D4807E9 /* [CP] Copy Pods Resources */ = {
@@ -250,7 +250,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-wavemap/Pods-wavemap-resources.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-radii/Pods-radii-resources.sh",
 				"${PODS_CONFIGURATION_BUILD_DIR}/React-Core/React-Core_privacy.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/React-cxxreact/React-cxxreact_privacy.bundle",
 			);
@@ -261,7 +261,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-wavemap/Pods-wavemap-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-radii/Pods-radii-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -280,18 +280,18 @@
 /* Begin XCBuildConfiguration section */
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0D5D150FCDD9F35FE21D86E0 /* Pods-wavemap.debug.xcconfig */;
+			baseConfigurationReference = 0D5D150FCDD9F35FE21D86E0 /* Pods-radii.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_ENTITLEMENTS = wavemap/wavemap.entitlements;
+				CODE_SIGN_ENTITLEMENTS = radii/radii.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_BITCODE = NO;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
 					"FB_SONARKIT_ENABLED=1",
 				);
-				INFOPLIST_FILE = wavemap/Info.plist;
+				INFOPLIST_FILE = radii/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -304,9 +304,9 @@
 					"-lc++",
 				);
 				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_DEBUG";
-				PRODUCT_BUNDLE_IDENTIFIER = com.anonymous.wavemap;
-				PRODUCT_NAME = wavemap;
-				SWIFT_OBJC_BRIDGING_HEADER = "wavemap/wavemap-Bridging-Header.h";
+				PRODUCT_BUNDLE_IDENTIFIER = com.anonymous.radii;
+				PRODUCT_NAME = radii;
+				SWIFT_OBJC_BRIDGING_HEADER = "radii/radii-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -316,13 +316,13 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 71CFCD5E48C75BD1A0A3FA27 /* Pods-wavemap.release.xcconfig */;
+			baseConfigurationReference = 71CFCD5E48C75BD1A0A3FA27 /* Pods-radii.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_ENTITLEMENTS = wavemap/wavemap.entitlements;
+				CODE_SIGN_ENTITLEMENTS = radii/radii.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
-				INFOPLIST_FILE = wavemap/Info.plist;
+				INFOPLIST_FILE = radii/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -335,9 +335,9 @@
 					"-lc++",
 				);
 				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_RELEASE";
-				PRODUCT_BUNDLE_IDENTIFIER = com.anonymous.wavemap;
-				PRODUCT_NAME = wavemap;
-				SWIFT_OBJC_BRIDGING_HEADER = "wavemap/wavemap-Bridging-Header.h";
+				PRODUCT_BUNDLE_IDENTIFIER = com.anonymous.radii;
+				PRODUCT_NAME = radii;
+				SWIFT_OBJC_BRIDGING_HEADER = "radii/radii-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -469,7 +469,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "wavemap" */ = {
+		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "radii" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				13B07F941A680F5B00A75B9A /* Debug */,
@@ -478,7 +478,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "wavemap" */ = {
+		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "radii" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				83CBBA201A601CBA00E9B192 /* Debug */,

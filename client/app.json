@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "Wavemap",
-    "slug": "wavemap",
-    "scheme": "wavemap",
+    "name": "Radii",
+    "slug": "radii",
+    "scheme": "radii",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -14,7 +14,10 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.anonymous.wavemap"
+      "bundleIdentifier": "com.anonymous.radii",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -24,7 +27,11 @@
         "monochromeImage": "./assets/android-icon-monochrome.png"
       },
       "predictiveBackGestureEnabled": false,
-      "package": "com.anonymous.wavemap"
+      "package": "com.anonymous.radii",
+      "permissions": [
+        "android.permission.ACCESS_COARSE_LOCATION",
+        "android.permission.ACCESS_FINE_LOCATION"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -35,9 +42,14 @@
       [
         "expo-location",
         {
-          "locationWhenInUsePermission": "Wavemap shows your position on the map while you use the app."
+          "locationWhenInUsePermission": "Radii shows your position on the map while you use the app."
         }
       ]
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "219222b7-f1cc-41b8-b403-9a6bcfcf0b92"
+      }
+    }
   }
 }

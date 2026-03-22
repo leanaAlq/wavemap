@@ -1,4 +1,4 @@
-# Wavemap — Project Context for Claude Code
+# Radii — Project Context for Claude Code
 
 ## What We're Building
 A location-based music social app. Users broadcast what 
@@ -54,7 +54,7 @@ Work through these one at a time. Don't move to the next until the current one i
 
 **Step 1 — Scaffold the project**
 ```
-Set up a monorepo for a React Native app called Wavemap.
+Set up a monorepo for a React Native app called Radii.
 Create a /client folder with a new React Native + TypeScript 
 project, and a /server folder with a Node.js + Express + 
 TypeScript backend. Add a /shared folder for types.

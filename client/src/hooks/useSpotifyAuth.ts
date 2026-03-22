@@ -50,18 +50,18 @@ export function useSpotifyAuth(): SpotifyAuthState {
   const [error, setError] = useState<string | null>(null);
 
   // In Expo Go, makeRedirectUri generates exp://<host>:8081 which Spotify's dashboard
-  // rejects (non-standard scheme). The only way to get a wavemap:// URI that Spotify
+  // rejects (non-standard scheme). The only way to get a radii:// URI that Spotify
   // accepts is to run a *development build*, not Expo Go:
   //
   //   npx expo run:ios    (requires Xcode)
   //   npx expo run:android  (requires Android Studio)
   //
   // After that, add the URI shown on the login screen to your Spotify dashboard.
-  // scheme + path → wavemap://callback
+  // scheme + path → radii://callback
   // Using an explicit path avoids empty-host URI issues with Spotify's token endpoint.
-  // Add exactly "wavemap://callback" to your Spotify dashboard's Redirect URIs.
+  // Add exactly "radii://callback" to your Spotify dashboard's Redirect URIs.
   const redirectUri = AuthSession.makeRedirectUri({
-    scheme: 'wavemap',
+    scheme: 'radii',
     path: 'callback',
   });
   const [request, response, promptAsync] = AuthSession.useAuthRequest(

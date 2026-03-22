@@ -12,7 +12,7 @@ app.use(express.json());
 
 // Health check — used to verify the server is up
 app.get('/health', (_req, res) => {
-  res.json({ status: 'ok', service: 'wavemap-server' });
+  res.json({ status: 'ok', service: 'radii-server' });
 });
 
 // Socket.io requires an http.Server — cannot attach to the express app directly
@@ -27,7 +27,7 @@ registerLocationNamespace(io);
 
 migrate().then(() => {
   httpServer.listen(PORT, () => {
-    console.log(`Wavemap server running on http://localhost:${PORT}`);
+    console.log(`Radii server running on http://localhost:${PORT}`);
     console.log(`Socket.io /location namespace ready`);
   });
 });
